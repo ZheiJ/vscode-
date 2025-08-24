@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<!-- 声明文档类型 -->
+<html lang="en">
+  <!-- 根元素，设置语言为英语 -->
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 设置字符编码为UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- 适配移动设备 -->
+    <title>页面标题</title>
+    <!-- 页面标题 -->
+    <!-- 引入外部CSS文件 -->
+    <link rel="stylesheet" href="styles.css" />
+    <!-- 引入外部JavaScript文件 -->
+    <script src="https://unpkg.com/vue@2"></script>
+    <!------------------------- Axios引用 --------------------------->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- vue  3   -->
+    <!-- <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script> -->
+
+    <!-- 使用defer确保脚本在文档解析完成后执行 -->
+  </head>
+  <body>
+    <!-- 页面内容 -->
+    <header>
+      <h1>欢迎来到我的网站</h1>
+      <nav>
+        <!-- <ul>
+          <li><a href="#">首页</a></li>
+          <li><a href="#">关于我们</a></li>
+          <li><a href="#">服务</a></li>
+          <li><a href="#">联系我们</a></li>
+        </ul> -->
+      </nav>
+    </header>
+
+    <div id="app">
+      <!--------------------- 绑定网页 --------------------------->
+      <a v-bind:href="url">连接1</a>
+      <a :href="url">连接2</a>
+      <a href="https://chat.deepseek.com/a/chat/s/296e874d-0446-429f-b5cb-cec58028a9c0">deepseek</a>
+
+      <!--------------------- 绑定表单元素（输入框里的值），改变这个值message也会变，如果在其他地方用的话也会改变 --------------------------->
+      <input type="text" v-model="message" />
+      {{ message }}<!-- 这是显示message的值 -->
+      <!--------------------------------- 点击事件------------------- --------------------------->
+      <input type="button" value="开始" @click="handle()" />
+      <input type="button" value="点击" v-on:click="handle()" />
+<!--------------------------------- 判断显示------------------- --------------------------->
+      <h1>
+        你的年龄是：<input type="text" v-model="age" />
+        <span v-if="age<35">年轻人</span>
+        <span v-else-if="age>=35&&age<=45"=>中年人</span>
+        <span v-else>老年人</span>
+        <!-- v-if  不符合，不渲染    ------     v-show  全部渲染，但是选择性展示 -->
+        你的年龄是：<input type="text" v-model="age" />
+        <span v-show="age<35">年轻人</span>
+        <span v-show="age>35&&age<45">中年人</span>
+        <span v-show>老年人</span>
+        <!--------------------------------- 循环遍历，v-for------------------- --------------------------->
+
+        <h3>
+          <div v-for="addr in addrs" >
+            {{ addr }}
+          </div>
+          <div v-for="addr in addrs">{{addrs}}</div>
+          <span v-for="(addr,index) in addrs">{{index+1}}.{{addr}}</span><!-- index从0开始遍历 -->
+          
+        </h3>
+<!--------------------------------- 循环遍历填写表格，v-for------------------- --------------------------->
+<table border="1" cellspacing="0" width="100%">
+  <tr>
+    <th>序号</th>
+    <th>姓名</th>
+    <th>年龄</th>
+    <th>属性</th>
+  </tr>
+
+  <tr v-for="(user,index) in users">
+    <td>{{index+1}}</td>
+    <td>{{user.name}}</td>
+    <td>{{user.age}}</td>
+    <td>
+      <span v-if="user.age<35" style="color:green">年轻人</span>
+      <span v-else-if="user.age>=35&&user.age<=45" style="color: gray;">中年人</span>
+      <span v-else style="color:black">老年人</span>
+    </td>
+    <td>
+      <input type="button" value="删除" @click="del(index)" />
+  </tr>
+
+</table>
+      </h1>
+    </div>
+
+    <main>
+      <section>
+        <h2>主要内容区域</h2>
+        <p>这里是页面的主要内容。</p>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2025 版权所有。保留所有权利。</p>
+    </footer>
+
+    <!-- 内联JavaScript -->
+    <script>
+      console.log(Vue.version); // 应该输出2.x.x
+      new Vue({
+        el: "#app",
+        data: {
+          message: "Hello Vue!",
+          url: "https://www.baidu.com",
+          age:20,
+          addrs:["北京","上海","广州"],
+          users:[{
+            name:"张三",
+            age:20
+          },{
+        name:"李四",
+        age:30
+      },{
+        name:"王五",
+        age:40
+      },{
+        name:"赵六",
+        age:100,
+      }]
+
+        },
+        mounted() {
+          alert("页面已加载");
+        },
+        // 钩子方法
+        methods: {
+          handle() {
+            let res = confirm("你是傻逼");
+            if (!res) {
+              this.handle();
+            }
+            console.log("点击了");
+          },
+        },
+      });
+      
+      console.log("页面已加载");
+    </script>
+  </body>
+</html>
