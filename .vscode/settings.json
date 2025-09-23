@@ -1,0 +1,5 @@
+{
+  "markdown-preview-enhanced.imageFolderPath": "/img",
+  "pasteImage.basePath": "${currentFileDir}/img",
+  "ipynb.pasteImagesAsAttachments.enabled": true
+}
