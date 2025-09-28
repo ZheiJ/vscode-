@@ -2,7 +2,7 @@
 
 ## 添加 mq
 
-···
+```cmd
 docker run ^
 -e RABBITMQ_DEFAULT_USER=root ^
 -e RABBITMQ_DEFAULT_PASS=123456 ^
@@ -13,7 +13,7 @@ docker run ^
 -p 5672:5672 ^
 -d ^
 rabbitmq:3.8-management
-···
+```
 
 ## 消费
 
