@@ -1,0 +1,429 @@
+<!DOCTYPE html><html><head>
+      <title>数据库</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\hjj\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.19\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<ul>
+<li><a href="#redis">redis</a>
+<ul>
+<li><a href="#%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95">基础语法</a></li>
+<li><a href="#redis-%E4%BA%8B%E5%8A%A1%E4%B8%8E-lua-%E8%84%9A%E6%9C%AC">redis 事务与 lua 脚本</a></li>
+<li><a href="#%E7%A7%92%E6%9D%80">秒杀</a></li>
+<li><a href="#%E5%A6%82%E4%BD%95%E4%BF%9D%E8%AF%81-redis-%E5%92%8C%E6%95%B0%E6%8D%AE%E5%BA%93%E9%87%8C%E7%9A%84%E6%95%B0%E6%8D%AE%E4%B8%80%E8%87%B4">如何保证 redis 和数据库里的数据一致？</a></li>
+<li><a href="#redis-%E6%8C%81%E4%B9%85%E5%8C%96">redis 持久化</a>
+<ul>
+<li><a href="#rdb">RDB</a></li>
+<li><a href="#aofappend-only-file">AOF（Append Only File）</a></li>
+</ul>
+</li>
+<li><a href="#redis-%E8%BF%87%E6%9C%9F%E7%AD%96%E7%95%A5">redis 过期策略</a></li>
+<li><a href="#redis-%E6%95%B0%E6%8D%AE%E6%B7%98%E6%B1%B0%E7%AD%96%E7%95%A5">redis 数据淘汰策略</a></li>
+</ul>
+</li>
+<li><a href="#mysql">MySQL</a>
+<ul>
+<li><a href="#%E5%BA%95%E5%B1%82%E7%BB%93%E6%9E%84">底层结构</a>
+<ul>
+<li><a href="#%E5%AF%B9%E4%BA%8E%E5%8D%95%E5%BC%A0%E9%A1%B5">对于单张页</a></li>
+<li><a href="#%E5%AF%B9%E4%BA%8E%E5%A4%9A%E5%BC%A0%E8%A1%A8">对于多张表</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9F%BA%E7%A1%80">基础</a>
+<ul>
+<li><a href="#%E5%85%B3%E9%94%AE%E5%AD%97">关键字</a></li>
+<li><a href="#%E8%BF%90%E7%AE%97%E7%AC%A6">运算符</a></li>
+<li><a href="#%E5%87%BD%E6%95%B0">函数</a></li>
+<li><a href="#%E8%A1%A8%E7%9A%84%E8%BF%9E%E6%8E%A5">表的连接</a></li>
+<li><a href="#%E6%A1%88%E4%BE%8B">案例</a></li>
+</ul>
+</li>
+<li><a href="#%E5%BF%AB%E6%85%A2%E6%9F%A5%E8%AF%A2">快慢查询</a>
+<ul>
+<li><a href="#%E5%AE%9A%E4%BD%8D%E6%85%A2%E6%9F%A5%E8%AF%A2">定位慢查询</a></li>
+<li><a href="#%E4%BC%98%E5%8C%96%E6%85%A2%E6%9F%A5%E8%AF%A2">优化慢查询</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="redis">redis </h1>
+<ol>
+<li>缓存击穿
+<ul>
+<li>一个数据刚好在 redis 里过期时大量的请求打过来
+<ul>
+<li>加互斥锁，redis 里用 setnx，只创建不存在的值。一定要添加过期时间，防止死锁，属于悲观锁，效率低，串行运行</li>
+<li>使用逻辑过期，永远都查得到值，过期前查正确值。过期的一瞬间后查的是旧值，同时在新的线程里修改值。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>缓存穿透
+<ul>
+<li>查询一个不存在的数据，导致一直访问数据库
+<ul>
+<li>缓存空值</li>
+<li>布隆过滤器<br>
+<img src="img/image-7.png" alt="alt text"><br>
+对数据运算为数字，然后 hash 取余操作，结果处的值改为一。</li>
+<li>提前预判部分不存在的数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>缓存雪崩
+<ul>
+<li>大量数据同时过期
+<ul>
+<li>随机过期</li>
+<li>如果是 redis 宕机可以集群模式，哨兵模式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h2 id="基础语法">基础语法 </h2>
+<ol>
+<li>运算
+<ol>
+<li>incrby key -1:给 key 的值减一</li>
+</ol>
+</li>
+<li>集合
+<ol>
+<li>sadd key value 向集合 key 里加入值 value，没有集合 key 则创建</li>
+<li>sismember key value 检测集合 key 里有没有 value</li>
+</ol>
+</li>
+</ol>
+<h2 id="redis-事务与-lua-脚本">redis 事务与 lua 脚本 </h2>
+<p>redis 事务拿不到中间值</p>
+<h2 id="秒杀">秒杀 </h2>
+<p>可能存在的问题：</p>
+<ol>
+<li>多线程并发，导致超卖</li>
+<li>不限制用户 id，一人抢多单</li>
+<li>redis 分布式锁误删（线程 1 阻塞导致锁过期，线程 2 上锁，线程 1 阻塞结束，把线程 2 的锁删除）</li>
+</ol>
+<h2 id="如何保证-redis-和数据库里的数据一致">如何保证 redis 和数据库里的数据一致？ </h2>
+<ul>
+<li>先删数据库再删缓存还是相反？
+<ol>
+<li>先删数据库<br>
+如果缓存正好过期，线程一访问数据库，拿到结果 10.线程二插入，删掉数据库值，改为 20，再删缓存。线程一拿到的是 10，存入缓存。结果不一致</li>
+<li>先删缓存<br>
+易得：依旧不一致问题</li>
+</ol>
+</li>
+<li>解决方法
+<ol>
+<li>延迟双删（一致性一般）<br>
+先删缓存---&gt;数据库（延迟）---&gt;缓存</li>
+<li>加锁（强一致性要求）
+<ol>
+<li>共享锁与排它锁---读锁与写锁<br>
+<img src="img/image-8.png" alt="alt text"></li>
+</ol>
+</li>
+<li>加中间层如 mq（异步，有延迟）</li>
+</ol>
+</li>
+</ul>
+<h2 id="redis-持久化">redis 持久化 </h2>
+<h3 id="rdb">RDB </h3>
+<p>全称 redis Database Backup file</p>
+<ol>
+<li>
+<p>主动备份</p>
+<ul>
+<li>save 主进程运行，堵塞其他命令</li>
+<li>bgsave 子进程，不堵塞</li>
+</ul>
+</li>
+<li>
+<p>自动备份（可再 redis.conf 中修改配置）<br>
+<img src="img/image-9.png" alt="alt text"><br>
+子进程即为备份进程，为了避免数据不一致。进行备份时物理内存中的数据为只读模式，写操作会让数据复制副本，主进程对副本操作与读写</p>
+</li>
+<li></li>
+</ol>
+<h3 id="aofappend-only-file">AOF（Append Only File） </h3>
+<p><img src="img/image-10.png" alt="alt text"><br>
+AOF 默认关闭，在 conf 文件里开启<br>
+触发方式：</p>
+<ol>
+<li>每条命令都触发写入-appendfsync always</li>
+<li>先缓存命令，每秒写入一次到 AOF-appendfsync everysec</li>
+<li>先缓存，由操作系统决定写入 AOF-appendfsync no</li>
+</ol>
+<h2 id="redis-过期策略">redis 过期策略 </h2>
+<ol>
+<li>惰性删除：在使用 key 时进行检测，过期则删除。
+<ul>
+<li>优点：对 cpu 友好</li>
+<li>缺点：对内存不友好</li>
+</ul>
+</li>
+<li>定期删除：每隔一段时间抽取随机 key 检测
+<ol>
+<li>slow 模式：默认频率 10hz，每次执行时间少于 25ms。频率可修改</li>
+<li>fast 模式：频率不固定，间隔不低于 2ms，耗时不超过 1ms</li>
+</ol>
+</li>
+</ol>
+<h2 id="redis-数据淘汰策略">redis 数据淘汰策略 </h2>
+<ol>
+<li>noeviction:默认策略，不淘汰任何数据，内存满了新数据无法写入</li>
+<li>lru:最近最少使用</li>
+</ol>
+<p><img src="img/image-11.png" alt="alt text"></p>
+<h1 id="mysql">MySQL </h1>
+<h2 id="底层结构">底层结构 </h2>
+<h3 id="对于单张页">对于单张页 </h3>
+<p><img src="img/2025-09-23-21-40-02.png" alt=""><br>
+对于一张表中，新加入的的数据如果是按 id 排序并不会每次加入后都进行排序，而是用 next_record 存下一个数据的地址，每次加数据只需要改这个</p>
+<ul>
+<li>next_record：下一个数据的地址，针对于本页内。永远是从 0 开始</li>
+<li>page_new_infimum: 链表中的第一条数据</li>
+<li>page_new_supremum:链表中的最后一个数据</li>
+<li>heap_no:自带的自增 id</li>
+<li>从磁盘取数据一次取 16kb 数据，即一页的大小（MySQL 的页大小默认是 16KB）<br>
+第一张表是目录表，标记了 idx 到 xx 的数据所在的页面</li>
+</ul>
+<h3 id="对于多张表">对于多张表 </h3>
+<p><img src="img/2025-09-23-21-50-35.png" alt=""><br>
+<img src="img/2025-09-23-21-54-16.png" alt=""></p>
+<p>（两张图连一起看）<br>
+开头加一行内容显示下一页的位置，用 next_page*16kb<br>
+最后一张才是头文件，第几张的 id 范围都已确定，方便查询</p>
+<p>可以视为<br>
+<img src="img/2025-09-23-21-33-18.png" alt=""></p>
+<h2 id="基础">基础 </h2>
+<h3 id="关键字">关键字 </h3>
+<ol>
+<li>
+<p>数据查询<br>
+SELECT：用于从表中查询数据<br>
+FROM：指定查询的表<br>
+WHERE：过滤查询条件<br>
+GROUP BY：按列分组统计</p>
+<ul>
+<li>
+<p>示例</p>
+<pre data-role="codeBlock" data-info="mysql" class="language-mysql mysql"><code>SELECT
+user_id,
+COUNT(id) AS order_count,  -- 统计每组的订单数量
+SUM(amount) AS total_amount  -- 计算每组的总金额
+FROM orders
+GROUP BY user_id;
+</code></pre><p>结果：</p>
+<p>user_id | order_count | total_amount<br>
+100 | 3 | 900<br>
+101 | 1 | 150</p>
+<p>| user_id | order_count | total_amount |</p>
+<p>|---------|-------------|--------------|<br>
+| 100 | 3 | 900 |<br>
+| 101 | 1 | 150 |</p>
+<p>不要 GROUP BY user_id 有什么影响？<br>
+<e><br>
+答：不要会导致 id 和 order_count 统计的是全部的。并且 user_id 会是随机一条，或者报错</e></p>
+</li>
+</ul>
+<p>HAVING：对分组结果进行过滤（类似 WHERE，但用于分组后）<br>
+ORDER BY：对结果排序（ASC 升序、DESC 降序）<br>
+LIMIT：限制返回结果的数量<br>
+DISTINCT：去除重复值</p>
+</li>
+<li>
+<p>数据操作<br>
+INSERT：插入数据到表中（配合 INTO 使用）<br>
+UPDATE：更新表中的数据（配合 SET 和 WHERE）<br>
+DELETE：删除表中的数据（配合 FROM 和 WHERE）<br>
+VALUES：在 INSERT 中指定插入的值<br>
+SET：在 UPDATE 中指定要修改的列和值</p>
+</li>
+<li>
+<p>表结构操作<br>
+CREATE：创建数据库、表、索引等（如 CREATE TABLE）</p>
+<p>ALTER：修改表结构（如添加列 ALTER TABLE ... ADD）</p>
+<p>DROP：删除数据库、表、索引等（如 DROP TABLE）</p>
+<p>TRUNCATE：清空表中所有数据（保留表结构）</p>
+<p>RENAME：重命名表或数据库</p>
+</li>
+<li>
+<p>其他常用关键字<br>
+AS：定义别名（如 SELECT name AS username）<br>
+<e><br>
+DISTINCT：去重且非 null（如 SELECT DISTINCT category，搜索不重复且不为 null 的 category）<br>
+<e><br>
+ALL：返回所有结果（默认，与 DISTINCT 相反）<br>
+<e><br>
+CASE：条件判断（类似编程语言中的 if-else，如 CASE WHEN ... THEN ... ELSE ... END）<br>
+<e><br>
+EXISTS：判断子查询是否返回结果（如 WHERE EXISTS (SELECT 1 FROM ...)）<br>
+<e><br>
+in:是一个用于条件判断的运算符，主要作用是判断某个值是否在指定的集合中</e></e></e></e></e></p>
+</li>
+</ol>
+<h3 id="运算符">运算符 </h3>
+<ol>
+<li>基础运算符:+-*/%</li>
+<li>比较运算符:=,!=,&lt;,&gt;
+<ul>
+<li>betwee...and...包含边界</li>
+<li>in 在指定集合中（有相等的值才返回）<br>
+SELECT * FROM users WHERE status IN (1, 3, 5);</li>
+<li>not in 不在集合中</li>
+<li>is null 判断是否为空</li>
+<li>like 模糊匹配</li>
+</ul>
+</li>
+<li>逻辑运算符:and,or,not,xor(逻辑异或,两个条件一真一假时为真)</li>
+<li>位运算，和 c 一样</li>
+<li>其他: :=赋值（仅用于 SET 或 UPDATE） :=：赋值（可在查询中使用）</li>
+</ol>
+<h3 id="函数">函数 </h3>
+<ul>
+<li>
+<p>聚合函数</p>
+<ol>
+<li>count()统计数量<pre data-role="codeBlock" data-info="c++" class="language-cpp c++"><code>SELECT <span class="token function">COUNT</span><span class="token punctuation">(</span><span class="token operator">*</span><span class="token punctuation">)</span> FROM customers<span class="token punctuation">;</span> <span class="token operator">--</span> 总记录数
+SELECT <span class="token function">COUNT</span><span class="token punctuation">(</span>DISTINCT email<span class="token punctuation">)</span> FROM customers<span class="token punctuation">;</span> <span class="token operator">--</span> 去重后的邮箱数
+</code></pre></li>
+<li>sum(price)</li>
+<li>avg(age)</li>
+<li>max(hight)</li>
+</ol>
+</li>
+<li>
+<p>日期函数</p>
+<ol>
+<li>DATE() / DATE_FORMAT()：日期提取与格式转换<br>
+场景：将 datetime 类型转为 “年 - 月 - 日” 格式，适配报表展示。<pre data-role="codeBlock" data-info="mysql" class="language-mysql mysql"><code>SELECT DATE(order_time) AS order_date, DATE_FORMAT(order_time, '%Y-%m-%d %H:%i') AS fmt_time FROM orders;
+</code></pre></li>
+<li>CURDATE() / NOW()：获取当前日期 / 当前日期时间<br>
+场景：查询 “今天的订单”“当前时间之前的活动”。<br>
+SELECT * FROM orders WHERE DATE(order_time) = CURDATE();（查询今日订单）</li>
+<li>DATEDIFF()：计算两个日期的天数差<br>
+场景：计算用户会员剩余天数、订单距今多久未支付。<br>
+示例：SELECT DATEDIFF(expire_time, CURDATE()) AS remaining_days FROM user_members;</li>
+</ol>
+</li>
+<li>
+<p>字符串函数(不常用)</p>
+<ol>
+<li>SUBSTRING() / LEFT() / RIGHT()：字符串截取<br>
+场景：隐藏手机号中间 4 位（如 “138****8000”）、提取身份证前 6 位（地区码）。<br>
+示例：<pre data-role="codeBlock" data-info="mysql" class="language-mysql mysql"><code>SELECT CONCAT(LEFT(phone, 3),  '****', RIGHT(phone, 4)) AS hide_phone FROM users;
+</code></pre></li>
+</ol>
+</li>
+</ul>
+<h3 id="表的连接">表的连接 </h3>
+<ol>
+<li>join ：内连接，只返回 a,b 表同时符合条件的数据<pre data-role="codeBlock" data-info="mysql" class="language-mysql mysql"><code>   select unique_id,name from Employees left join EmployeeUNI on EmployeeUNI.id=Employees.id
+</code></pre>只能用 on 不能用 where，其他函数可以</li>
+<li>left join ：左外连接，返回左表所有数据，和右表满足条件的行。如果左表中的某行在右表中没有匹配到满足连接条件的记录，那么右表对应的列值会用 NULL 填充。</li>
+<li>outer join ：全外连接，</li>
+</ol>
+<h3 id="案例">案例 </h3>
+<ol>
+<li>
+<pre data-role="codeBlock" data-info="MySQL" class="language-mysql MySQL"><code>select name from{
+   select count(managerId)
+   from Employee
+   where count &gt;5
+   group by managerId
+}
+
+</code></pre><p>这是错的，下面是对的：</p>
+<pre data-role="codeBlock" data-info="mysql" class="language-mysql mysql"><code>-- 查询管理了超过5名员工的管理者姓名
+SELECT e.name
+FROM Employee e
+WHERE e.id IN (
+ -- 子查询：找出管理人数 &gt;5 的 managerId
+ SELECT managerId
+ FROM Employee
+ GROUP BY managerId
+ HAVING COUNT(managerId) &gt; 5  -- 用 HAVING 过滤分组后的计数结果
+);
+
+</code></pre><p>如果按我的思路应该是这样的：</p>
+<pre data-role="codeBlock" data-info="mysql" class="language-mysql mysql"><code>select Name
+from (
+select Manager.Name as Name, count(Report.Id) as cnt
+from
+Employee as Manager join Employee as Report
+on Manager.Id = Report.ManagerId
+group by Manager.Id
+) as ReportCount
+where cnt &gt;= 5
+</code></pre></li>
+</ol>
+<h2>快慢查询</h2>
+<h3>定位慢查询</h3>
+<p>当压力测试时，某个接口查询时间过长</p>
+<ol>
+<li>使用运维工具（skywalking）</li>
+<li>使用慢日志查询，设置例如两秒以上为慢的设定。查出慢语句</li>
+</ol>
+<h3>优化慢查询</h3>
+<ul>
+<li>使用 explain 命令<br>
+EXPLAIN select *from xxx<br>
+<img src="img/image-12.png" alt="alt text">!
+<ol>
+<li>partitions 是否开启表分区</li>
+<li>select_type:查询类型
+<ul>
+<li>这里是简单查询 simple</li>
+</ul>
+</li>
+<li>type:表的扫描类型,效率从高到低排序如下:(后两个不建议使用)
+<ul>
+<li>NULL:使用时没用到表</li>
+<li>system:用的 mysql 自带的表</li>
+<li>const:根据主键查询(带 where 条件,只有一条记录)</li>
+<li>eq_ref:唯一键或主键查询</li>
+<li>ref:索引查询(非唯一索引)</li>
+<li>range:范围查询</li>
+<li>index:全索引查询,遍历整个索引树</li>
+<li>all:全盘扫描,不走索引</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
