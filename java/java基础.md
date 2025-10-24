@@ -1,4 +1,10 @@
+## 计算机基础
+
+1. btye=8bit
+
 ## idea 快捷键
+
+2. bit 位；只能表示 0 或 1
 
 1. ctrl+alt+t:快捷选择 if/else 或其他
    ![](img/2025-10-15-17-08-04.png)
@@ -47,6 +53,35 @@
 | `char`       | `Character`  | 包装字符类型，`Character`类提供了很多用于处理字符的方法，比如判断字符是否为字母、数字，大小写转换等 。 |
 | `boolean`    | `Boolean`    | 包装布尔类型，用于将布尔值作为对象进行处理，在一些需要对象的编程场景中使用。                           |
 
+## String，StringBuilder,StringBuffer
+
+- String:不可变类型，底层用的 private final char[] value(jdk8),private final byte(jdk9,更节省内存),频繁修改会创建大量临时对象,导致内存浪费和 GC 压力
+  char 是 16 位，byte 是 8 位。对于列如只占一个字符的英语单词 a，byte 更省空间
+
+- StringBuilder:
+
+| 类       | String                                | StringBuilder                | StringBuffer                   |
+| -------- | ------------------------------------- | ---------------------------- | ------------------------------ |
+| 可变性   | 不可变（底层 char 数组被 final 修饰） | 可变（动态扩容的 char 数组） | 可变（动态扩容的 char 数组）   |
+| 线程安全 | 安全（不可变天然线程安全）            | 不安全（无同步锁）           | 安全（方法加 synchronized 锁） |
+| 性能     | 低（拼接会创建新对象）                | 高（单线程首选）             | 中（多线程场景）               |
+
+## final、static、volatile 关键字
+
+- static:修饰静态。“属于类” 的修饰符，可修饰   类、方法、变量、代码块，表示 “与类绑定，而非实例”(JVM 中类加载器中加载)
+  - 实现方法的具体实现就叫实例，比如张三.吃饭，张三就是实例。吃饭是方法。student 是类。
+- final:“不可变” 的修饰符。
+  - 修饰类：类不能被继承（如  String、Integer），避免子类扩展破坏原逻辑。
+  - 修饰方法：方法不能被重写，确保父类方法逻辑不被篡改（如工具类的核心方法）。
+  - 修饰变量：
+    - 基本类型变量：值不能修改（如  final int a = 10; a = 20; // 编译报错）；
+    - 引用类型变量：引用不能指向新对象（但对象内部属性可修改）
+- volatile 关键字：“可见性” 和 “禁止重排序” 的保证
+  作用是解决多线程下的内存可见性和指令重排序问题：
+  - 内存可见性：当一个线程修改  volatile  变量后，其他线程能 “立刻看到” 最新值（避免线程读取到本地缓存的旧值）；
+  - 禁止指令重排序：阻止 JVM 对  volatile  变量相关的指令进行优化重排（如避免 “双重检查单例” 中的空指针问题）。
+  - volatile 不能保证原子性
+
 ## 数组与链表
 
 1. 原生数组
@@ -72,8 +107,11 @@
    共同点：
 
    - 非线程安全
+   -
 
-# Hashmap 与 concurrenthashmap
+## 接口
+
+## Hashmap 与 concurrenthashmap
 
 - hashmap:
   1. 取模决定位置
@@ -85,7 +123,7 @@
   1. 用 CAS 和 synchronized。只在改时锁住当前要操作的
   2. hasttable 是个被淘汰的老东西，他把所有线程都用 synchronized 锁起来
 
-# io 流
+## io 流
 
 1. 序列化
 2. websocket 就会用到：
@@ -103,6 +141,13 @@
    }
    ```
 
-# ==和 equals
+## == 和 equals
 
-==对比的是基本数据类型。或者内存地址是否相同
+== 对比的是基本数据类型。或者内存地址是否相同
+
+## jdk,jre,jvm
+
+1. jdk：Java 开发工具包，是开发的必须环境，包含开发 Java 程序所需的工具（如 javac 编译器、jdb 调试器）。
+2. JRE (Java Runtime Environment)：Java 运行时环境，包含 JVM 和运行 Java 程序所需的核心类库（如 rt.jar）。仅需运行 Java 程序时安装。
+3. JVM (Java Virtual Machine)：Java 虚拟机，负责将字节码（.class 文件）解释 / 编译为本地机器码并执行，是 “一次编译，到处运行” 的核心。
+   关系：JDK ⊇ JRE ⊇ JVM（JDK 包含 JRE，JRE 包含 JVM 和类库）
