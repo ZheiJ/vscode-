@@ -1,0 +1,42 @@
+<body>
+    <p>你好</p>
+    <!-- tr table row
+         td table data
+         th table header -->
+    <table>
+        <thead>
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>年龄</th>
+            </tr>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>张三</td>
+            <td>18</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>李四</td>
+            <td>20</td>
+        </tr>
+    </table>
+
+    <!-- div无含义,就表示这个个区块 ，但是会独占一行-->
+    <div></div>
+    <!-- span无含义,表示行内元素，不会独占一行 -->
+    <span></span>
+
+    <!-- action就是发送的url -->
+    <form action="employee/login"  method="post">
+        <label for="name">姓名</label>
+        <!--placeholder默认虚字，value是默认值  -->
+        <input type="name" id="name" placeholder="jj">
+        <input type="password" />
+        <input type="submit" value="提交" />
+        <br>
+        <!-- 提交给服务器端的值是value的值 -->
+        <input type="radio" name="gender" value="male> ">男
+    </form>
+</body>

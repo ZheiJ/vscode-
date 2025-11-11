@@ -39,6 +39,10 @@
 6. double
 7. char
 8. boolean
+   基础类型的缺点
+9. Java 集合（如 ArrayList、HashMap 等）只能存储对象，不能直接存储基本类型
+10. 泛型不能用基础类型
+11. 表示 null 值
 
 ### 包装类
 
@@ -53,12 +57,26 @@
 | `char`       | `Character`  | 包装字符类型，`Character`类提供了很多用于处理字符的方法，比如判断字符是否为字母、数字，大小写转换等 。 |
 | `boolean`    | `Boolean`    | 包装布尔类型，用于将布尔值作为对象进行处理，在一些需要对象的编程场景中使用。                           |
 
+integer 方法：
+
+1.
+
 ## String，StringBuilder,StringBuffer
 
 - String:不可变类型，底层用的 private final char[] value(jdk8),private final byte(jdk9,更节省内存),频繁修改会创建大量临时对象,导致内存浪费和 GC 压力
   char 是 16 位，byte 是 8 位。对于列如只占一个字符的英语单词 a，byte 更省空间
 
+  - 方法：
+    1.  split 分割
+        ```java
+          String a="2025-10-29";
+          String[] arr = a.split("-");
+          //arr[0]=2025,arr[1]=10,arr[2]=29
+        ```
+
 - StringBuilder:
+  1. Integer.parseInt(String s)：String 转 int
+  2. Integer.valueOf : String 转 integer
 
 | 类       | String                                | StringBuilder                | StringBuffer                   |
 | -------- | ------------------------------------- | ---------------------------- | ------------------------------ |
@@ -102,6 +120,9 @@
    区别：
 
    - ArrayList 类似于 vector，基于动态数组
+
+     - 方法
+
    - LinkedList 是双向链表实现。适合中间插入，访问效率低
 
    共同点：
@@ -119,6 +140,11 @@
      当链表长度超过 8 且数组容量 < 64 时，不会直接转红黑树，而是先触发扩容
   3. 红黑树转化：当链表长度达到 8 ，且同时满足数组容量 ≥ 64 。
   4. 退化：当红黑树中的元素个数减少到 6 时，会退化回链表
+     &nbsp;
+  - 基础用法：
+  1.  put(key,value):添加键值对。若键已存在，覆盖旧值并返回旧值；若键不存在，返回 null。
+  2.  void putAll(Map):批量添加另一个 Map 中的所有键值对（键重复时覆盖）。
+  3.  get(key):根据键获取对应的值，若键不存在返回 null。
 - concurrenthashmap
   1. 用 CAS 和 synchronized。只在改时锁住当前要操作的
   2. hasttable 是个被淘汰的老东西，他把所有线程都用 synchronized 锁起来
@@ -140,6 +166,73 @@
        e.printStackTrace();
    }
    ```
+
+## 匿名内部类
+
+匿名内部类的特点：
+
+1. 没有类名：直接通过父类或接口来定义，无需显式声明类名。
+2. 只能创建一个实例：匿名内部类在定义的同时就会创建唯一的实例，无法重复使用。
+3. 必须继承一个父类或实现一个接口：不能独立存在，要么继承某个类，要么实现某个接口（且只能继承一个类或实现一个接口）。
+4. 语法简洁：适合快速创建简单的类实例，避免单独定义一个类的繁琐。
+
+语法格式：
+
+```java
+// 继承父类的匿名内部类
+父类类型 变量名 = new 父类类型() {
+    // 匿名内部类的成员（方法重写或新增）
+};
+
+// 实现接口的匿名内部类
+接口类型 变量名 = new 接口类型() {
+    // 实现接口的抽象方法
+};
+```
+
+实现接口的匿名内部类:
+
+```java
+// 定义一个接口
+interface Greeting {
+    void sayHello();
+}
+
+public class AnonymousDemo {
+    public static void main(String[] args) {
+        // 创建匿名内部类，实现Greeting接口
+        Greeting greeting = new Greeting() {
+            @Override
+            public void sayHello() {
+                System.out.println("Hello, 匿名内部类！");
+            }
+        };
+        greeting.sayHello(); // 输出：Hello, 匿名内部类！
+    }
+}
+```
+
+## stream 流
+
+1. stream 流的中间方法
+   ![](img/2025-10-29-13-26-43.png)
+   - 中间方法返回新的 stream 流，前面的 stream 只能使用一次，用过一次后就没了，建议链式编程
+   - 修改 stream 流中的数据不会影响原数据
+   - 举例：
+     1. filter
+     ```java
+     //Predicate是java内置方法，接收一个参数返回bool类型，filter强绑predicate方法
+       list.stream().filter(new Predicate<String>() {
+          @Override
+          public boolean test(String s) {
+              if(s.endsWith("子")){
+                  return true;
+              }
+              return false;
+          }
+      }).forEach(s-> System.out.println(s));
+     ```
+     2. distinct 底层用 hashset
 
 ## == 和 equals
 
