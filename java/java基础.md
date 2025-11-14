@@ -216,6 +216,36 @@ public class AnonymousDemo {
 
 1. stream 流的中间方法
    ![](img/2025-10-29-13-26-43.png)
+
+# Stream 常用中间方法与终端方法对照表
+
+| 方法类型     | 常用方法                              | 核心作用                                                               | 返回值类型             | 关键说明                                                                             |
+| ------------ | ------------------------------------- | ---------------------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------ |
+| **中间方法** | `filter(Predicate)`                   | 过滤元素，保留满足条件的元素                                           | Stream<T>              | 接收 Lambda 表达式（参数为元素，返回 boolean），true 保留、false 过滤                |
+|              | `map(Function)`                       | 元素映射，将一个元素转换为另一个元素（如 String→Integer、对象 → 属性） | Stream<R>              | 接收 Lambda 表达式（参数为元素，返回转换后的值），实现“一对一”转换                   |
+|              | `distinct()`                          | 元素去重，基于元素的 `equals()` 方法判断是否重复                       | Stream<T>              | 无参数，自动去重流中重复元素                                                         |
+|              | `sorted()` / `sorted(Comparator)`     | 排序，默认自然排序（需元素实现 Comparable），或自定义比较器排序        | Stream<T>              | 重载方法：无参用自然排序，有参接收 Comparator 自定义排序规则（如降序）               |
+|              | `limit(long)`                         | 限制流长度，保留前 N 个元素                                            | Stream<T>              | 参数为 long 类型，如 `limit(3)` 保留前 3 个元素                                      |
+|              | `skip(long)`                          | 跳过前 N 个元素，保留后续元素                                          | Stream<T>              | 参数为 long 类型，如 `skip(2)` 跳过前 2 个元素，从第 3 个开始保留                    |
+|              | `flatMap(Function)`                   | 扁平化映射，将一个元素转换为多个元素（如 List→ 元素、字符串 → 字符）   | Stream<R>              | 解决“嵌套集合”问题，实现“一对多”转换（如 `List<List<String>>`→`Stream<String>`）     |
+| **终端方法** | `toArray()` / `toArray(IntFunction)`  | 将流转换为数组，默认 Object[] 或指定类型数组                           | Object[] / A[]         | 重载方法：无参返回 Object[]，有参通过 IntFunction 指定数组类型（如 `String[]::new`） |
+|              | `collect(Collector)`                  | 收集流元素到集合（List/Set/Map）或自定义结果                           | 任意类型（如 List<T>） | 最常用终端方法，配合 `Collectors` 工具类（如 `toList()`、`toSet()`、`groupingBy()`） |
+|              | `forEach(Consumer)`                   | 遍历流元素，执行自定义操作（如打印、修改外部变量）                     | void                   | 接收 Lambda 表达式（参数为元素，无返回值），无返回结果，仅用于“消费”元素             |
+|              | `count()`                             | 统计流中元素的个数                                                     | long                   | 无参数，返回流中元素总数，结果为 long 类型                                           |
+|              | `findFirst()`                         | 获取流中第一个元素                                                     | Optional<T>            | 返回 Optional 类型（避免空指针），配合 `get()` 取值或 `orElse()` 设默认值            |
+|              | `findAny()`                           | 获取流中任意一个元素（并行流中效率更高）                               | Optional<T>            | 非并行流中通常返回第一个元素，并行流中随机返回一个，同样返回 Optional                |
+|              | `allMatch(Predicate)`                 | 判断所有元素是否满足条件                                               | boolean                | 所有元素满足条件返回 true，否则 false；流为空时返回 true（空集合满足“所有”）         |
+|              | `anyMatch(Predicate)`                 | 判断是否存在至少一个元素满足条件                                       | boolean                | 存在一个满足条件返回 true，否则 false；流为空时返回 false                            |
+|              | `noneMatch(Predicate)`                | 判断所有元素是否都不满足条件                                           | boolean                | 所有元素不满足条件返回 true，否则 false；流为空时返回 true                           |
+|              | `max(Comparator)` / `min(Comparator)` | 查找流中最大值或最小值                                                 | Optional<T>            | 需传入 Comparator 指定比较规则，返回 Optional 类型，避免空指针                       |
+|              | `reduce(T, BinaryOperator)`           | 归约，将流中元素逐步合并为一个结果（如求和、求积、拼接字符串）         | T                      | 第一个参数为初始值，第二个参数为合并规则（如 `(a,b) -> a+b` 求和）                   |
+
+### 关键补充说明
+
+1. 中间方法的核心特点是“惰性执行”：仅定义流的加工规则，不触发实际计算，直到调用终端方法才会遍历流并执行所有中间操作。
+2. 终端方法的核心特点是“触发执行”：调用后立即遍历流，执行所有中间操作并产出结果，流会被消耗（后续无法再使用该流）。
+3. Optional 类型：终端方法 `findFirst()`、`findAny()`、`max()`、`min()` 返回 Optional，是 Java 8 用于避免空指针的容器类，推荐用 `orElse(default)`（无值时返回默认值）或 `ifPresent(Consumer)`（有值时执行操作）取值。
+
    - 中间方法返回新的 stream 流，前面的 stream 只能使用一次，用过一次后就没了，建议链式编程
    - 修改 stream 流中的数据不会影响原数据
    - 举例：
