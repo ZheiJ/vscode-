@@ -1,6 +1,17 @@
 ## 计算机基础
 
-1. btye=8bit
+## 注解
+
+1. @Value 注解：主要用于从配置文件（如 application.properties、application.yml 或 Nacos 配置中心等）中读取配置值，并注入到 Bean 的字段或方法参数中。
+
+```java
+@Value("${order.timeout}")
+String orderTimeout;
+```
+
+2. GetMapping：在@Controller 注解下是接受请求，在@FeighnClient 注解下是发送请求
+
+3. btye=8bit
 
 ## idea 快捷键
 
