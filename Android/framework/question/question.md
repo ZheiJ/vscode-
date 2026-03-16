@@ -4330,7 +4330,7 @@ public static void main(String[] args) {
 }
 ```
 
----
+## </details>
 
 ### 4.10 简述从点击图标到 app 启动的流程 ⭐⭐⭐⭐⭐
 
