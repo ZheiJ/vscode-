@@ -1003,7 +1003,7 @@ public class MainActivity extends AppCompatActivity {
 
 **JNI 函数注册的两种方式：**
 
-## 1. 静态注册
+#### 1. 静态注册
 
 **原理：**
 根据方法名自动匹配，遵循命名规则：`Java_包名_类名_方法名`
@@ -1027,7 +1027,7 @@ Java_com_example_JniHelper_add(JNIEnv* env, jobject thiz, jint a, jint b) {
 
 ---
 
-## 2. 动态注册
+#### 2. 动态注册
 
 **原理：**
 在 `JNI_OnLoad` 中手动注册方法映射表
@@ -1094,7 +1094,7 @@ typedef struct {
 
 ---
 
-## 对比
+#### 对比
 
 | 特性       | 静态注册   | 动态注册 |
 | ---------- | ---------- | -------- |
@@ -1115,7 +1115,7 @@ typedef struct {
 
 **静态注册 vs 动态注册 详细对比：**
 
-## 核心区别
+#### 核心区别
 
 | 维度         | 静态注册                         | 动态注册                  |
 | ------------ | -------------------------------- | ------------------------- |
@@ -1126,7 +1126,7 @@ typedef struct {
 
 ---
 
-## 静态注册详解
+#### 静态注册详解
 
 **工作流程：**
 
@@ -1151,7 +1151,7 @@ typedef struct {
 
 ---
 
-## 动态注册详解
+#### 动态注册详解
 
 **工作流程：**
 
@@ -1177,7 +1177,7 @@ typedef struct {
 
 ---
 
-## 使用建议
+#### 使用建议
 
 | 场景           | 推荐方式 |
 | -------------- | -------- |
@@ -1220,9 +1220,9 @@ Launcher (桌面启动)
 
 ---
 
-## 详细阶段
+#### 详细阶段
 
-### 阶段 1: Boot ROM
+##### 阶段 1: Boot ROM
 
 ```
 1. 上电后，CPU 跳转到固定地址（0x00000000）
@@ -1231,7 +1231,7 @@ Launcher (桌面启动)
 4. 跳转到 Boot Loader
 ```
 
-### 阶段 2: Boot Loader
+##### 阶段 2: Boot Loader
 
 ```
 1. 初始化硬件（CPU、内存、显示屏等）
@@ -1240,7 +1240,7 @@ Launcher (桌面启动)
 4. 跳转到 Kernel 入口
 ```
 
-### 阶段 3: Linux Kernel
+##### 阶段 3: Linux Kernel
 
 ```
 1. 初始化内核子系统
@@ -1249,7 +1249,7 @@ Launcher (桌面启动)
 4. 启动第一个用户进程 init
 ```
 
-### 阶段 4: Init 进程
+##### 阶段 4: Init 进程
 
 ```cpp
 // system/core/init/init.cpp
@@ -1271,7 +1271,7 @@ int main(int argc, char** argv) {
 }
 ```
 
-### 阶段 5: Zygote 进程
+##### 阶段 5: Zygote 进程
 
 ```cpp
 // frameworks/base/cmds/app_process/app_main.cpp
@@ -1291,7 +1291,7 @@ int main(int argc, char* const argv[]) {
 - 创建应用程序进程
 - 通过 Socket 接收创建进程请求
 
-### 阶段 6: System Server
+##### 阶段 6: System Server
 
 ```java
 // frameworks/base/services/java/com/android/server/SystemServer.java
@@ -1313,7 +1313,7 @@ private void run() {
 }
 ```
 
-### 阶段 7: Launcher 启动
+##### 阶段 7: Launcher 启动
 
 ```
 1. AMS 启动 Home Activity
@@ -1333,9 +1333,9 @@ private void run() {
 
 **System Server 在 Zygote 中启动的原因：**
 
-## 核心原因：资源共享和快速启动
+#### 核心原因：资源共享和快速启动
 
-### 1. 共享已预加载的资源
+##### 1. 共享已预加载的资源
 
 ```
 Zygote 预加载内容：
@@ -1360,14 +1360,14 @@ Zygote 预加载内容：
 // 子进程共享父进程的内存页，只在修改时才复制
 ```
 
-### 2. 启动速度优化
+##### 2. 启动速度优化
 
 | 启动方式      | 启动时间 | 内存占用             |
 | ------------- | -------- | -------------------- |
 | init 直接启动 | 5-10s    | 需要重新加载所有资源 |
 | Zygote fork   | 1-2s     | 共享预加载资源       |
 
-### 3. 避免重复初始化
+##### 3. 避免重复初始化
 
 ```java
 // ZygoteInit.java
@@ -1386,7 +1386,7 @@ public static void main(String argv[]) {
 }
 ```
 
-### 4. 统一的应用进程创建机制
+##### 4. 统一的应用进程创建机制
 
 ```
 System Server 和 App 进程创建方式一致：
@@ -1395,7 +1395,7 @@ System Server 和 App 进程创建方式一致：
 - 都使用相同的虚拟机配置
 ```
 
-### 5. 安全性考虑
+##### 5. 安全性考虑
 
 ```
 Zygote 以 root 权限运行：
@@ -1406,7 +1406,7 @@ Zygote 以 root 权限运行：
 
 ---
 
-## 如果 init 直接启动会怎样？
+#### 如果 init 直接启动会怎样？
 
 ```
 问题：
@@ -1427,9 +1427,9 @@ Zygote 以 root 权限运行：
 
 **Zygote 中启动 System Server 的死锁风险：**
 
-## 死锁场景分析
+#### 死锁场景分析
 
-### 场景：多线程 + fork
+##### 场景：多线程 + fork
 
 ```cpp
 // 假设 Zygote 中有多个线程
@@ -1461,9 +1461,9 @@ Thread 3: 持有锁 A 和 B
 
 ---
 
-## Android 的解决方案
+#### Android 的解决方案
 
-### 方案 1: fork 前暂停其他线程
+##### 方案 1: fork 前暂停其他线程
 
 ```cpp
 // dalvik/vm/heap.cpp
@@ -1488,7 +1488,7 @@ int dvmFork() {
 }
 ```
 
-### 方案 2: 使用特殊锁机制
+##### 方案 2: 使用特殊锁机制
 
 ```cpp
 // pthread_atfork 机制
@@ -1499,7 +1499,7 @@ pthread_atfork(
 );
 ```
 
-### 方案 3: Zygote 单线程设计
+##### 方案 3: Zygote 单线程设计
 
 ```java
 // Zygote 设计为单线程模式
@@ -1509,7 +1509,7 @@ pthread_atfork(
 
 ---
 
-## 具体死锁案例
+#### 具体死锁案例
 
 ```cpp
 // 假设情况
@@ -1546,9 +1546,9 @@ void childProcess() {
 
 **Zygote 不使用 Binder 而使用 Socket 的原因：**
 
-## 核心原因
+#### 核心原因
 
-### 1. 避免 Binder 驱动依赖
+##### 1. 避免 Binder 驱动依赖
 
 ```
 系统启动时序：
@@ -1561,7 +1561,7 @@ void childProcess() {
 问题：Zygote 启动时，Binder 驱动已就绪，但 ServiceManager 还未启动
 ```
 
-### 2. 简单可靠的通信需求
+##### 2. 简单可靠的通信需求
 
 **Zygote 的通信特点：**
 
@@ -1588,7 +1588,7 @@ String[] args = peer.readArgumentList();
 pid = Zygote.forkAndSpecialize(...);
 ```
 
-### 3. 避免 Binder 的复杂性
+##### 3. 避免 Binder 的复杂性
 
 | 特性         | Binder                    | Socket         |
 | ------------ | ------------------------- | -------------- |
@@ -1597,7 +1597,7 @@ pid = Zygote.forkAndSpecialize(...);
 | 内存管理     | 需要 mmap                 | 内核自动管理   |
 | 适用场景     | 复杂的 C/S 通信           | 简单的命令传输 |
 
-### 4. 安全性考虑
+##### 4. 安全性考虑
 
 ```
 Zygote Socket 特点：
@@ -1609,7 +1609,7 @@ Zygote Socket 特点：
 
 ---
 
-## 为什么不能等 ServiceManager 启动后再用 Binder？
+#### 为什么不能等 ServiceManager 启动后再用 Binder？
 
 ```
 时序问题：
@@ -1624,7 +1624,7 @@ Zygote Socket 特点：
 
 ---
 
-## 总结
+#### 总结
 
 | 原因     | 说明                            |
 | -------- | ------------------------------- |
@@ -1664,9 +1664,9 @@ AMS 检查进程是否存在
 
 ---
 
-## 详细流程
+#### 详细流程
 
-### Step 1: Launcher 处理点击
+##### Step 1: Launcher 处理点击
 
 ```java
 // Launcher3 中的点击处理
@@ -1682,7 +1682,7 @@ public void onClick(View v) {
 }
 ```
 
-### Step 2: 调用 startActivity
+##### Step 2: 调用 startActivity
 
 ```java
 // Activity.java
@@ -1696,7 +1696,7 @@ Instrumentation.ActivityResult ar =
         this, mMainThread.getApplicationThread(), ...);
 ```
 
-### Step 3: 进入 AMS
+##### Step 3: 进入 AMS
 
 ```java
 // ActivityTaskManagerService.java
@@ -1710,7 +1710,7 @@ public int startActivity(IApplicationThread caller, String callingPackage,
 }
 ```
 
-### Step 4: 检查进程状态
+##### Step 4: 检查进程状态
 
 ```java
 // ActivityManagerService.java
@@ -1728,7 +1728,7 @@ final ProcessRecord startProcessLocked(...) {
 }
 ```
 
-### Step 5: 请求 Zygote 创建进程
+##### Step 5: 请求 Zygote 创建进程
 
 ```java
 // ProcessList.java
@@ -1747,7 +1747,7 @@ private Process.ProcessStartResult attemptZygoteSendArgsLocked(...)
 }
 ```
 
-### Step 6: Zygote fork 进程
+##### Step 6: Zygote fork 进程
 
 ```cpp
 // Zygote 接收到请求
@@ -1761,7 +1761,7 @@ if (pid == 0) {
 }
 ```
 
-### Step 7: 新进程初始化
+##### Step 7: 新进程初始化
 
 ```java
 // ActivityThread.java
@@ -1784,7 +1784,7 @@ private void attach(boolean system, long startSeq) {
 }
 ```
 
-### Step 8: AMS 通知创建 Activity
+##### Step 8: AMS 通知创建 Activity
 
 ```java
 // ActivityManagerService.java
@@ -1797,7 +1797,7 @@ public final void attachApplication(IApplicationThread thread, long startSeq) {
 }
 ```
 
-### Step 9: 创建和启动 Activity
+##### Step 9: 创建和启动 Activity
 
 ```java
 // ActivityThread.java
@@ -1827,7 +1827,7 @@ private Activity performLaunchActivity(ActivityClientRecord r, Intent customInte
 }
 ```
 
-### Step 10: 显示界面
+##### Step 10: 显示界面
 
 ```java
 // Activity.java
@@ -1843,7 +1843,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 ---
 
-## 时序图
+#### 时序图
 
 ```
 Launcher    AMS    Zygote    新进程    Activity
@@ -1895,9 +1895,9 @@ AMS 决定启动 Activity
 
 ---
 
-## 详细流程
+#### 详细流程
 
-### Step 1: AMS 处理启动请求
+##### Step 1: AMS 处理启动请求
 
 ```java
 // ActivityStarter.java
@@ -1921,7 +1921,7 @@ int execute() {
 }
 ```
 
-### Step 2: 处理 LaunchMode
+##### Step 2: 处理 LaunchMode
 
 ```java
 // ActivityStarter.java
@@ -1954,7 +1954,7 @@ private int startActivityUnchecked(...) {
 }
 ```
 
-### Step 3: 暂停当前 Activity
+##### Step 3: 暂停当前 Activity
 
 ```java
 // ActivityStack.java
@@ -1977,7 +1977,7 @@ public final void schedulePauseActivity(IBinder token, boolean finished,
 }
 ```
 
-### Step 4: 创建 Activity 实例
+##### Step 4: 创建 Activity 实例
 
 ```java
 // ActivityThread.java
@@ -2014,7 +2014,7 @@ private Activity performLaunchActivity(ActivityClientRecord r, Intent customInte
 }
 ```
 
-### Step 5: Activity.attach()
+##### Step 5: Activity.attach()
 
 ```java
 // Activity.java
@@ -2042,7 +2042,7 @@ final void attach(Context context, ActivityThread aThread,
 }
 ```
 
-### Step 6: onCreate 中设置布局
+##### Step 6: onCreate 中设置布局
 
 ```java
 // Activity.java
@@ -2059,7 +2059,7 @@ public void setContentView(@LayoutRes int layoutResID) {
 }
 ```
 
-### Step 7: PhoneWindow 创建 DecorView
+##### Step 7: PhoneWindow 创建 DecorView
 
 ```java
 // PhoneWindow.java
@@ -2096,7 +2096,7 @@ private void installDecor() {
 }
 ```
 
-### Step 8: 执行 onStart 和 onResume
+##### Step 8: 执行 onStart 和 onResume
 
 ```java
 // ActivityThread.java
@@ -2119,7 +2119,7 @@ private void handleResumeActivity(IBinder token, boolean finalStateRequest,
 }
 ```
 
-### Step 9: 添加 Window 到 WMS
+##### Step 9: 添加 Window 到 WMS
 
 ```java
 // WindowManagerImpl.java
@@ -2150,7 +2150,7 @@ public void addView(View view, ViewGroup.LayoutParams params,
 }
 ```
 
-### Step 10: ViewRootImpl 请求布局
+##### Step 10: ViewRootImpl 请求布局
 
 ```java
 // ViewRootImpl.java
@@ -2177,7 +2177,7 @@ public void setView(View view, WindowManager.LayoutParams attrs, View panelParen
 
 ---
 
-## 生命周期调用顺序
+#### 生命周期调用顺序
 
 ```
 1. 构造函数
@@ -2204,7 +2204,7 @@ public void setView(View view, WindowManager.LayoutParams attrs, View panelParen
 
 **Zygote 使用 Socket 而非 Binder 的完整原因：**
 
-## 1. 启动时序问题（最关键）
+#### 1. 启动时序问题（最关键）
 
 ```
 Android 启动顺序：
@@ -2222,7 +2222,7 @@ Android 启动顺序：
 
 ---
 
-## 2. Binder 的依赖关系
+#### 2. Binder 的依赖关系
 
 **Binder 通信的必要条件：**
 
@@ -2240,7 +2240,7 @@ Zygote 启动时：
 
 ---
 
-## 3. Socket 的独立性
+#### 3. Socket 的独立性
 
 **Unix Domain Socket 特点：**
 
@@ -2268,7 +2268,7 @@ listen(fd, 10);
 
 ---
 
-## 4. 通信需求匹配
+#### 4. 通信需求匹配
 
 **Zygote 的通信特点：**
 
@@ -2300,7 +2300,7 @@ android.app.ActivityThread
 
 ---
 
-## 5. 架构设计考虑
+#### 5. 架构设计考虑
 
 **如果 Zygote 用 Binder 会怎样？**
 
@@ -2322,7 +2322,7 @@ android.app.ActivityThread
 
 ---
 
-## 6. 安全性对比
+#### 6. 安全性对比
 
 | 特性     | Binder               | Unix Domain Socket   |
 | -------- | -------------------- | -------------------- |
@@ -2342,7 +2342,7 @@ srw-rw---- 1 root system 0 2024-01-01 00:00 /dev/socket/zygote
 
 ---
 
-## 总结
+#### 总结
 
 | 原因         | 说明                                             |
 | ------------ | ------------------------------------------------ |
@@ -2363,7 +2363,7 @@ srw-rw---- 1 root system 0 2024-01-01 00:00 /dev/socket/zygote
 
 **Zygote 进程的起源：**
 
-## 进程层级关系
+#### 进程层级关系
 
 ```
 Kernel (内核空间)
@@ -2379,9 +2379,9 @@ Zygote 进程 (由 Init fork 产生)
 
 ---
 
-## Zygote 的创建过程
+#### Zygote 的创建过程
 
-### 1. Init 解析 init.rc
+##### 1. Init 解析 init.rc
 
 ```bash
 # system/core/rootdir/init.rc
@@ -2394,7 +2394,7 @@ service zygote /system/bin/app_process -Xzygote /system/bin --zygote --start-sys
     ...
 ```
 
-### 2. Init fork Zygote
+##### 2. Init fork Zygote
 
 ```cpp
 // system/core/init/service.cpp
@@ -2417,7 +2417,7 @@ bool Service::Start() {
 }
 ```
 
-### 3. Zygote 启动
+##### 3. Zygote 启动
 
 ```cpp
 // frameworks/base/cmds/app_process/app_main.cpp
@@ -2436,7 +2436,7 @@ int main(int argc, char* const argv[]) {
 
 ---
 
-## Zygote 的父进程
+#### Zygote 的父进程
 
 ```
 Zygote 的父进程：Init 进程（PID = 1）
@@ -2452,7 +2452,7 @@ PPID = 1 表示父进程是 Init
 
 ---
 
-## 为什么不是 Kernel 直接启动？
+#### 为什么不是 Kernel 直接启动？
 
 ```
 Kernel 启动后：
@@ -2469,7 +2469,7 @@ Kernel 启动后：
 
 ---
 
-## 总结
+#### 总结
 
 | 问题              | 答案                             |
 | ----------------- | -------------------------------- |
@@ -2493,7 +2493,7 @@ Kernel 启动后：
 
 ---
 
-## 核心职责
+#### 核心职责
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -2528,7 +2528,7 @@ Kernel 启动后：
 
 ---
 
-## AMS 在系统中的位置
+#### AMS 在系统中的位置
 
 ```
 ┌─────────────────────────────────────────┐
@@ -2556,7 +2556,7 @@ Kernel 启动后：
 
 ---
 
-## 关键类关系
+#### 关键类关系
 
 ```java
 // AMS 继承关系
@@ -2576,7 +2576,7 @@ public class ActivityManagerService extends IActivityManager.Stub
 
 ---
 
-## AMS 初始化流程
+#### AMS 初始化流程
 
 ```java
 // SystemServer.java
@@ -2608,9 +2608,9 @@ private void startBootstrapServices() {
 <details>
 <summary>点击查看答案</summary>
 
-## AMS 的核心作用
+#### AMS 的核心作用
 
-### 1. 组件生命周期管理
+##### 1. 组件生命周期管理
 
 ```java
 // ActivityManagerService.java
@@ -2648,7 +2648,7 @@ public Intent registerReceiver(IApplicationThread caller, String callerPackage,
 }
 ```
 
-### 2. 进程管理
+##### 2. 进程管理
 
 ```java
 // ProcessList.java
@@ -2691,9 +2691,9 @@ boolean updateOomAdjLocked(ProcessRecord app, String oomAdjReason) {
 
 ---
 
-## 源码分析
+#### 源码分析
 
-### 启动流程源码
+##### 启动流程源码
 
 ```java
 // ActivityStarter.java - Activity 启动核心类
@@ -2749,7 +2749,7 @@ class ActivityStarter {
 }
 ```
 
-### Activity 栈管理
+##### Activity 栈管理
 
 ```java
 // ActivityStack.java
@@ -2786,7 +2786,7 @@ class ActivityStack extends ConfigurationContainer {
 }
 ```
 
-### 与 WMS 的交互
+##### 与 WMS 的交互
 
 ```java
 // ActivityRecord.java
@@ -2804,7 +2804,7 @@ void createAppWindowToken() {
 
 ---
 
-## AMS 架构图
+#### AMS 架构图
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -2843,7 +2843,7 @@ void createAppWindowToken() {
 
 **AMS 初始化时机：**
 
-## 初始化流程
+#### 初始化流程
 
 ```
 Zygote 启动
@@ -2873,9 +2873,9 @@ AMS.systemReady()  ← AMS 准备就绪
 
 ---
 
-## 源码分析
+#### 源码分析
 
-### 1. SystemServer 启动 AMS
+##### 1. SystemServer 启动 AMS
 
 ```java
 // SystemServer.java
@@ -3001,7 +3001,7 @@ public void setSystemProcess() {
 
 ---
 
-## 初始化时序总结
+#### 初始化时序总结
 
 | 阶段                     | 时间 | 操作                        |
 | ------------------------ | ---- | --------------------------- |
@@ -3021,7 +3021,7 @@ public void setSystemProcess() {
 <details>
 <summary>点击查看答案</summary>
 
-## 三者关系概览
+#### 三者关系概览
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -3050,9 +3050,9 @@ public void setSystemProcess() {
 
 ---
 
-## 详细说明
+#### 详细说明
 
-### 1. Binder
+##### 1. Binder
 
 **作用：** Android 的跨进程通信（IPC）机制
 
@@ -3073,7 +3073,7 @@ public class Binder implements IBinder {
 }
 ```
 
-### 2. IActivityManager (AIDL 接口)
+##### 2. IActivityManager (AIDL 接口)
 
 ```java
 // IActivityManager.aidl
@@ -3184,9 +3184,9 @@ public class ActivityManagerService extends IActivityManager.Stub
 
 ---
 
-## 调用流程
+#### 调用流程
 
-### 客户端调用
+##### 客户端调用
 
 ```java
 // 获取 AMS 代理
@@ -3201,7 +3201,7 @@ am.startActivity(...);
 // 3. Proxy.transact() 通过 Binder 驱动发送请求
 ```
 
-### 服务端处理
+##### 服务端处理
 
 ```java
 // Binder 驱动接收到请求
@@ -3229,7 +3229,7 @@ public boolean onTransact(int code, Parcel data, Parcel reply, int flags) {
 
 ---
 
-## 关系总结
+#### 关系总结
 
 | 组件                       | 角色       | 说明                                |
 | -------------------------- | ---------- | ----------------------------------- |
@@ -3247,7 +3247,7 @@ public boolean onTransact(int code, Parcel data, Parcel reply, int flags) {
 <details>
 <summary>点击查看答案</summary>
 
-## AMS 注册流程
+#### AMS 注册流程
 
 ```
 SystemServer 启动
@@ -3265,9 +3265,9 @@ Binder 驱动注册
 
 ---
 
-## 详细流程
+#### 详细流程
 
-### 1. AMS 创建
+##### 1. AMS 创建
 
 ```java
 // SystemServer.java
@@ -3281,7 +3281,7 @@ private void startBootstrapServices() {
 }
 ```
 
-### 2. setSystemProcess
+##### 2. setSystemProcess
 
 ```java
 // ActivityManagerService.java
@@ -3432,9 +3432,9 @@ int do_add_service(struct binder_state *bs, const uint16_t *s, size_t len,
 
 ---
 
-## 服务注册后的使用
+#### 服务注册后的使用
 
-### 客户端获取服务
+##### 客户端获取服务
 
 ```java
 // 应用进程获取 AMS
@@ -3445,7 +3445,7 @@ IActivityManager am = IActivityManager.Stub.asInterface(b);
 am.startActivity(...);
 ```
 
-### 获取流程
+##### 获取流程
 
 ```cpp
 // ServiceManager 处理获取请求
@@ -3471,7 +3471,7 @@ int do_find_service(struct binder_state *bs, const uint16_t *s, size_t len,
 
 ---
 
-## 注册流程总结
+#### 注册流程总结
 
 | 步骤 | 操作             | 说明                                  |
 | ---- | ---------------- | ------------------------------------- |
@@ -3492,7 +3492,7 @@ int do_find_service(struct binder_state *bs, const uint16_t *s, size_t len,
 <details>
 <summary>点击查看答案</summary>
 
-## 概述
+#### 概述
 
 | 类                    | 所属进程 | 作用                     | 角色          |
 | --------------------- | -------- | ------------------------ | ------------- |
@@ -3501,7 +3501,7 @@ int do_find_service(struct binder_state *bs, const uint16_t *s, size_t len,
 
 ---
 
-## ActivityThread
+#### ActivityThread
 
 **定义：** 应用进程的主线程，管理应用的所有 Activity、Service 等组件
 
@@ -3554,7 +3554,7 @@ public final class ActivityThread extends ClientTransactionHandler {
 
 ---
 
-## ApplicationThread
+#### ApplicationThread
 
 **定义：** ActivityThread 的内部类，继承 IApplicationThread.Stub，是 AMS 调用应用的 Binder 接口
 
@@ -3632,7 +3632,7 @@ private class ApplicationThread extends IApplicationThread.Stub {
 
 ---
 
-## 关系图
+#### 关系图
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -3665,7 +3665,7 @@ private class ApplicationThread extends IApplicationThread.Stub {
 
 ---
 
-## 区别对比
+#### 区别对比
 
 | 特性         | ActivityThread           | ApplicationThread               |
 | ------------ | ------------------------ | ------------------------------- |
@@ -3678,9 +3678,9 @@ private class ApplicationThread extends IApplicationThread.Stub {
 
 ---
 
-## 工作流程示例
+#### 工作流程示例
 
-### Activity 启动流程中的交互
+##### Activity 启动流程中的交互
 
 ```
 1. AMS 决定启动 Activity
@@ -3726,7 +3726,9 @@ class H extends Handler {
 <details>
 <summary>点击查看答案</summary>
 
-## AMS 与 Zygote 通信方式
+---
+
+#### AMS 与 Zygote 通信方式
 
 ```
 AMS (system_server 进程)
@@ -3746,9 +3748,9 @@ Zygote.forkAndSpecialize()  // fork 新进程
 
 ---
 
-## 通信实现
+#### 通信实现
 
-### 1. AMS 发起请求
+##### 1. AMS 发起请求
 
 ```java
 // ProcessList.java
@@ -3816,7 +3818,7 @@ private Process.ProcessStartResult zygoteSendArgsAndGetResult(
 }
 ```
 
-### 3. Zygote 接收请求
+##### 3. Zygote 接收请求
 
 ```java
 // ZygoteInit.java
@@ -3921,9 +3923,9 @@ private boolean handleChildProc(ZygoteArguments parsedArgs,
 
 ---
 
-## 通信协议
+#### 通信协议
 
-### 请求格式
+##### 请求格式
 
 ```
 [参数个数]\n
@@ -3940,7 +3942,7 @@ private boolean handleChildProc(ZygoteArguments parsedArgs,
 android.app.ActivityThread
 ```
 
-### 响应格式
+##### 响应格式
 
 ```
 [PID: int]
@@ -3953,7 +3955,7 @@ false
 
 ---
 
-## 为什么使用 Socket 而不是 Binder？
+#### 为什么使用 Socket 而不是 Binder？
 
 | 原因         | 说明                                             |
 | ------------ | ------------------------------------------------ |
@@ -3971,9 +3973,9 @@ false
 <details>
 <summary>点击查看答案</summary>
 
-## AMS 服务对象存储
+#### AMS 服务对象存储
 
-### 1. ServiceManager 存储
+##### 1. ServiceManager 存储
 
 ```cpp
 // frameworks/native/cmds/servicemanager/service_manager.c
@@ -4025,9 +4027,9 @@ struct svcinfo *find_svc(const uint16_t *s16, size_t len) {
 
 ---
 
-## 应用层获取 AMS
+#### 应用层获取 AMS
 
-### 1. 通过 ServiceManager
+##### 1. 通过 ServiceManager
 
 ```java
 // 底层获取方式
@@ -4035,7 +4037,7 @@ IBinder binder = ServiceManager.getService(Context.ACTIVITY_SERVICE);
 IActivityManager am = IActivityManager.Stub.asInterface(binder);
 ```
 
-### 2. 通过 ActivityManager 类（推荐）
+##### 2. 通过 ActivityManager 类（推荐）
 
 ```java
 // 应用层获取 AMS 的标准方式
@@ -4074,7 +4076,7 @@ public Object getSystemService(String name) {
 
 ---
 
-## 获取流程详解
+#### 获取流程详解
 
 ```
 应用进程
@@ -4098,9 +4100,9 @@ ServiceManager 查询 svclist
 
 ---
 
-## 代码示例
+#### 代码示例
 
-### 获取正在运行的任务
+##### 获取正在运行的任务
 
 ```java
 // 需要权限：android.permission.GET_TASKS
@@ -4112,7 +4114,7 @@ for (ActivityManager.RunningTaskInfo task : tasks) {
 }
 ```
 
-### 获取内存信息
+##### 获取内存信息
 
 ```java
 ActivityManager.MemoryInfo memoryInfo = new ActivityManager.MemoryInfo();
@@ -4123,7 +4125,7 @@ Log.d(TAG, "Available memory: " + memoryInfo.availMem);
 Log.d(TAG, "Low memory: " + memoryInfo.lowMemory);
 ```
 
-### 获取运行中的服务
+##### 获取运行中的服务
 
 ```java
 List<ActivityManager.RunningServiceInfo> services = am.getRunningServices(100);
@@ -4134,7 +4136,7 @@ for (ActivityManager.RunningServiceInfo service : services) {
 
 ---
 
-## 注意事项
+#### 注意事项
 
 | 限制           | 说明                                      |
 | -------------- | ----------------------------------------- |
@@ -4152,7 +4154,7 @@ for (ActivityManager.RunningServiceInfo service : services) {
 <details>
 <summary>点击查看答案</summary>
 
-## AMS 与 ServiceManager 的关系
+#### AMS 与 ServiceManager 的关系
 
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
@@ -4182,7 +4184,7 @@ for (ActivityManager.RunningServiceInfo service : services) {
 
 ---
 
-## 关系说明
+#### 关系说明
 
 | 关系         | 说明                                               |
 | ------------ | -------------------------------------------------- |
@@ -4193,9 +4195,9 @@ for (ActivityManager.RunningServiceInfo service : services) {
 
 ---
 
-## App 启动流程
+#### App 启动流程
 
-### 完整流程图
+##### 完整流程图
 
 ```
 用户点击图标
@@ -4249,9 +4251,9 @@ AMS 检查进程是否存在
 
 ---
 
-## 详细流程
+#### 详细流程
 
-### Step 1: Launcher 发起启动
+##### Step 1: Launcher 发起启动
 
 ```java
 // Launcher3
@@ -4264,7 +4266,7 @@ public void onClick(View v) {
 }
 ```
 
-### Step 2: 进入 AMS
+##### Step 2: 进入 AMS
 
 ```java
 // ActivityManagerService.java
@@ -4281,7 +4283,7 @@ public int startActivity(IApplicationThread caller, String callingPackage,
 }
 ```
 
-### Step 3: 检查并创建进程
+##### Step 3: 检查并创建进程
 
 ```java
 // ProcessList.java
@@ -4301,7 +4303,7 @@ private Process.ProcessStartResult startProcess(...) {
 }
 ```
 
-### Step 4: Zygote 创建进程
+##### Step 4: Zygote 创建进程
 
 ```java
 // ZygoteProcess.java
@@ -4311,7 +4313,7 @@ private Process.ProcessStartResult zygoteSendArgsAndGetResult(...) {
 }
 ```
 
-### Step 5: 应用进程启动
+##### Step 5: 应用进程启动
 
 ```java
 // ActivityThread.java
@@ -4330,7 +4332,7 @@ public static void main(String[] args) {
 
 ---
 
-## 4.10 简述从点击图标到 app 启动的流程 ⭐⭐⭐⭐⭐
+### 4.10 简述从点击图标到 app 启动的流程 ⭐⭐⭐⭐⭐
 
 <details>
 <summary>点击查看答案</summary>
