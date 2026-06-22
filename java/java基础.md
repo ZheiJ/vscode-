@@ -76,7 +76,6 @@ integer 方法：
 
 - String:不可变类型，底层用的 private final char[] value(jdk8),private final byte(jdk9,更节省内存),频繁修改会创建大量临时对象,导致内存浪费和 GC 压力
   char 是 16 位，byte 是 8 位。对于列如只占一个字符的英语单词 a，byte 更省空间
-
   - 方法：
     1.  split 分割
         ```java
@@ -129,15 +128,12 @@ integer 方法：
 
 2. List 中的 ArrayList 和 linkedlist（java 中没有自带的单链表）
    区别：
-
    - ArrayList 类似于 vector，基于动态数组
-
      - 方法
 
    - LinkedList 是双向链表实现。适合中间插入，访问效率低
 
    共同点：
-
    - 非线程安全
    -
 
@@ -256,11 +252,11 @@ public class AnonymousDemo {
 1. 中间方法的核心特点是“惰性执行”：仅定义流的加工规则，不触发实际计算，直到调用终端方法才会遍历流并执行所有中间操作。
 2. 终端方法的核心特点是“触发执行”：调用后立即遍历流，执行所有中间操作并产出结果，流会被消耗（后续无法再使用该流）。
 3. Optional 类型：终端方法 `findFirst()`、`findAny()`、`max()`、`min()` 返回 Optional，是 Java 8 用于避免空指针的容器类，推荐用 `orElse(default)`（无值时返回默认值）或 `ifPresent(Consumer)`（有值时执行操作）取值。
-
    - 中间方法返回新的 stream 流，前面的 stream 只能使用一次，用过一次后就没了，建议链式编程
    - 修改 stream 流中的数据不会影响原数据
    - 举例：
      1. filter
+
      ```java
      //Predicate是java内置方法，接收一个参数返回bool类型，filter强绑predicate方法
        list.stream().filter(new Predicate<String>() {
@@ -273,6 +269,7 @@ public class AnonymousDemo {
           }
       }).forEach(s-> System.out.println(s));
      ```
+
      2. distinct 底层用 hashset
 
 ## == 和 equals
@@ -285,3 +282,92 @@ public class AnonymousDemo {
 2. JRE (Java Runtime Environment)：Java 运行时环境，包含 JVM 和运行 Java 程序所需的核心类库（如 rt.jar）。仅需运行 Java 程序时安装。
 3. JVM (Java Virtual Machine)：Java 虚拟机，负责将字节码（.class 文件）解释 / 编译为本地机器码并执行，是 “一次编译，到处运行” 的核心。
    关系：JDK ⊇ JRE ⊇ JVM（JDK 包含 JRE，JRE 包含 JVM 和类库）
+
+## 设计模式
+
+### 1.单例模式
+
+1. 懒汉模式：要用时才加载
+
+   ```java
+   class A{
+    //这是冗余设计，不好。
+    static boolean i=true;
+    private A(){
+    }
+    public static A getinstance(){
+      if(i==true){
+        i=false;
+        A a=new A();
+      }
+    }
+   }
+   ```
+
+2. 双重锁检查
+   ```java
+   class A{
+    private A(){}
+    private A instance;
+    public static A getInstance(){
+      if(instance==null){
+        synchronized(A){
+          if(instance!=null){
+            instance=new A();
+          }
+        }
+      }
+    }
+    return instance;
+   }
+   ```
+3. 饿汉模式:静态类直接加载全局实例
+
+   ```java
+   class A{
+    private A(){}
+    //也可以直接用public但是不符合封装的思想
+    private static final A a=new A();
+
+   }
+   public static A getInstance() {
+        // 未来可随意加逻辑
+        return a;
+    }
+   ```
+
+### 2.代理模式
+
+1. 静态代理
+   ```java
+   class A implements Star{
+    public void sing(String song){
+      @override
+      system.out.println("song");
+    }
+   }
+   interface Star{
+    {
+      void sing(String song);
+    }
+   }
+   class AProxy implements Star{
+    private Star star =new A();
+    @override
+    public void sing(String song){
+      sout("掉用前");
+      star.sing(song);
+    }
+   }
+   class test{
+    public static void main(String[] args) {
+        // 客户端只调用代理类，不直接操作真实对象
+        AProxy proxy = new AProxy();
+        proxy.sing("稻香");
+    }
+   }
+   ```
+2. 动态代理
+   ```java
+   public
+   ```
